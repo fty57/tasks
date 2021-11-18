@@ -1,6 +1,6 @@
 // Quando um componente não tem estado, mas é interessante você criar um funcional
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import moment from 'moment'
@@ -11,16 +11,21 @@ import commonStyles from '../commonStyles'
 export default props => {
 
      const doneOrNotStyle = props.doneAt != null ?
-               { textDecorationLine: 'line-through' } : {} 
-               // Significa que ele vai aplicar o estilo
+          { textDecorationLine: 'line-through' } : {}
+     // Significa que ele vai aplicar o estilo
 
      const date = props.doneAt ? props.doneAt : props.estimateAt
      const formatedDate = moment(date).locale('pt-br').format('ddd, D [de] MMMM')
      return (
           <View style={styles.container}>
-               <View style={styles.checkContainer}>
-                    {getCheckView(props.doneAt)}
-               </View>
+               <TouchableWithoutFeedback
+                    onPress={() => props.toggleTask(props.id)}
+                    >
+                    <View style={styles.checkContainer}>
+                         {getCheckView(props.doneAt)}
+                    </View>
+
+               </TouchableWithoutFeedback>
 
                <View>
                     <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
