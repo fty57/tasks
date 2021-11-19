@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet, FlatList } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native'
 import commonStyles from '../../src/commonStyles'
 
 import todayImage from '../../assets/imgs/today.jpg'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import Task from '../components/Task'
 
@@ -12,6 +13,7 @@ import 'moment/locale/pt-br'
 
 export default class TaskList extends Component {
      state = {
+          showDoneTasks: true,
           tasks: [{
                id: Math.random(),
                desc: 'Comprar Livro de React Native',
@@ -23,6 +25,11 @@ export default class TaskList extends Component {
                estimateAt: new Date(),
                doneAt: null
           }]
+     }
+
+     toggleFilter = () => {
+          // Sempre que você chamar esse metódo ele irá fazer a alternância
+          this.setState({ showDoneTasks: !this.state.showDoneTasks })
      }
 
      toggleTask = taskId => {
@@ -41,6 +48,15 @@ export default class TaskList extends Component {
           return (
                <View style={styles.container}>
                     <ImageBackground source={todayImage} style={styles.background}>
+                         <View style={styles.iconBar}>
+                              <TouchableOpacity onPress={this.toggleFilter}>
+                                   <Icon
+                                        name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
+                                        size={20}
+                                        color={commonStyles.colors.secondary}
+                                   />
+                              </TouchableOpacity>
+                         </View>
                          <View style={styles.titleBar}>
                               <Text style={styles.title}>Hoje</Text>
                               <Text style={styles.subtitle}>{today}</Text>
@@ -51,7 +67,7 @@ export default class TaskList extends Component {
                          <FlatList
                               data={this.state.taskes}
                               keyExtractor={item => `${item.id}`}
-                              renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask}/>} //Pegar os atributos do objeto e usar como parâmetros - Espalhando os atributos do nosso objeto para o componente
+                              renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} //Pegar os atributos do objeto e usar como parâmetros - Espalhando os atributos do nosso objeto para o componente
                          />
                     </View>
                </View>
@@ -87,6 +103,12 @@ const styles = StyleSheet.create({
           fontSize: 20,
           marginLeft: 20,
           marginBottom: 30,
+     },
+     iconBar: {
+          flexDirection: 'row',
+          marginHorizontal: 20,
+          justifyContent: 'flex-end',
+          marginTop: Platform.OS === 'ios' ? 40 : 10 // Utilizando um estilo condicional
      }
 
 })
