@@ -15,7 +15,7 @@ import 'moment/locale/pt-br'
 export default class TaskList extends Component {
      state = {
           showDoneTasks: true,
-          showAddTask : true,
+          showAddTask : false,
           visibleTasks: [],
           tasks: [{
                id: Math.random(),
@@ -91,6 +91,9 @@ export default class TaskList extends Component {
                               renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} //Pegar os atributos do objeto e usar como parâmetros - Espalhando os atributos do nosso objeto para o componente
                          />
                     </View>
+                    <TouchableOpacity style={styles.addButton}>
+                         <Icon name='plus' size={20} color={commonStyles.colors.secondary}/>
+                    </TouchableOpacity>
                </View>
           )
      }
@@ -130,6 +133,10 @@ const styles = StyleSheet.create({
           marginHorizontal: 20,
           justifyContent: 'flex-end',
           marginTop: Platform.OS === 'ios' ? 40 : 10 // Utilizando um estilo condicional
+     },
+     addButton: {
+          position: 'absolute',
+          
      }
 
 })
