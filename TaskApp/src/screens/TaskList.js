@@ -15,7 +15,7 @@ import 'moment/locale/pt-br'
 export default class TaskList extends Component {
      state = {
           showDoneTasks: true,
-          showAddTask : false,
+          showAddTask: false,
           visibleTasks: [],
           tasks: [{
                id: Math.random(),
@@ -30,7 +30,7 @@ export default class TaskList extends Component {
           }]
      }
 
-     componentDidMount = () =>{
+     componentDidMount = () => {
           this.filterTasks()
      }
 
@@ -54,7 +54,7 @@ export default class TaskList extends Component {
           let visibleTasks = null
           if (this.state.showDoneTasks) {
                visibleTasks = [...this.state.tasks]
-          }else{
+          } else {
                const pending = task => task.doneAt === null
                visibleTasks = this.state.tasks.filter(pending)
           }
@@ -67,7 +67,7 @@ export default class TaskList extends Component {
           return (
                <View style={styles.container}>
                     <AddTask isVisible={this.state.showAddTask}
-                              onCancel={()=> this.setState({showAddTask: false})}/>
+                         onCancel={() => this.setState({ showAddTask: false })} />
                     <ImageBackground source={todayImage} style={styles.background}>
                          <View style={styles.iconBar}>
                               <TouchableOpacity onPress={this.toggleFilter}>
@@ -91,8 +91,16 @@ export default class TaskList extends Component {
                               renderItem={({ item }) => <Task {...item} toggleTask={this.toggleTask} />} //Pegar os atributos do objeto e usar como parâmetros - Espalhando os atributos do nosso objeto para o componente
                          />
                     </View>
-                    <TouchableOpacity style={styles.addButton}>
-                         <Icon name='plus' size={20} color={commonStyles.colors.secondary}/>
+                    <TouchableOpacity 
+                         style={styles.addButton}
+                         onPress={() => this.setState({showAddTask: true})}
+                         activeOpacity={0.7}
+                    >
+                         <Icon
+                              name='plus'
+                              size={20}
+                              color={commonStyles.colors.secondary} 
+                         />
                     </TouchableOpacity>
                </View>
           )
@@ -135,8 +143,15 @@ const styles = StyleSheet.create({
           marginTop: Platform.OS === 'ios' ? 40 : 10 // Utilizando um estilo condicional
      },
      addButton: {
-          position: 'absolute',
-          
+          position: 'absolute', // Absolute quer dizer que ele vai ficar acima de outros
+          right: 30,
+          bottom: 30,
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          backgroundColor: commonStyles.colors.today,
+          justifyContent: 'center',
+          alignItems: 'center',
      }
 
 })

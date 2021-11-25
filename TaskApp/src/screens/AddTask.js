@@ -3,18 +3,28 @@ import { Modal, View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpaci
 
 import commonStyles from '../commonStyles'
 
+import DateTimePicker from '@react-native-community/datetimepicker'
+
 // Referências do estado inicial, caso seja preciso restartar
-const initialState = { desc: ''}
+
 
 // Uma vez que você coloca valor no textInput você nota que não consegue mais digitar
 // Não é o componente TextInput que altera o estado, é o estado que altera o componente
 // onChangeText={desc => this.setState({desc})} - Essa linha altera o estado
 // value={this.state.desc} - O valor do estado sendo alterado, ele será refletido na interface
 
+const initialState = { desc: '', date: new Date() }
+
 export default class AddTask extends Component {
 
      state = {
           ...initialState
+     }
+
+     getDateTimePicker = () => {
+          return <DateTimePicker value={this.state.date}
+               onChange={(_, date) => this.setState({ date })}
+               mode='date' />
      }
 
      render() {
@@ -39,6 +49,7 @@ export default class AddTask extends Component {
                               onChangeText={desc => this.setState({desc})}
                               value={this.state.desc}     
                          />
+                         {this.getDateTimePicker()}
                          <View style={styles.buttons}>
                               <TouchableOpacity onPress={this.props.onCancel}>
                                    <Text style={styles.button}>Cancelar</Text>
