@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpacity, TextInput, Platform } from 'react-native'
+import { Modal, View, StyleSheet, TouchableWithoutFeedback, Text, TouchableOpacity, TextInput, Platform, TouchableHighlightBase } from 'react-native'
 
 import moment from 'moment'
 import commonStyles from '../commonStyles'
@@ -20,6 +20,21 @@ export default class AddTask extends Component {
 
      state = {
           ...initialState
+     }
+
+     save = () => {
+          const newTask = {
+               desc: this.state.desc,
+               date: this.state.date
+          }
+
+          if (this.props.onSave) {
+               this.props.onSave(newTask)
+          }
+          // this.props.onSave && this.props.onSave(newTask) é a mesma coisa da parte de cima
+
+          this.setState({ ...initialState })
+
      }
 
      getDatePicker = () => {
@@ -72,7 +87,7 @@ export default class AddTask extends Component {
                                    <Text style={styles.button}>Cancelar</Text>
                               </TouchableOpacity>
 
-                              <TouchableOpacity>
+                              <TouchableOpacity onPress={this.save}>
                                    <Text style={styles.button}>Salvar</Text>
                               </TouchableOpacity>
                          </View>
