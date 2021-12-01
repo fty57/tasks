@@ -27,7 +27,9 @@ export default props => {
 
      const getRightContent = () => {
           return(
-               <TouchableOpacity style={styles.right}>
+               <TouchableOpacity style={styles.right}
+                    onPress={() => {}}
+               >
                     <Icon name='trash' size={30} color='#FFF'/>
                </TouchableOpacity>
           )
