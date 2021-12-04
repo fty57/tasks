@@ -6,7 +6,8 @@ import {
      View,
      TextInput,
      TouchableOpacity,
-     Platform
+     Platform,
+     Alert
 } from 'react-native'
 
 import backgroundImage from '../../assets/imgs/login.jpg'
@@ -19,7 +20,15 @@ export default class App extends Component {
           email: '',
           password: '',
           confirmPassword: '',
-          stageNew: true
+          stageNew: false
+     }
+
+     signinOrSignup = () => {
+          if (this.state.stageNew) {
+               Alert.alert('Sucesso!', 'Criar conta')
+          } else {
+               Alert.alert('Sucesso!', 'Logar')
+          }
      }
 
      render() {
@@ -30,7 +39,7 @@ export default class App extends Component {
                     <Text style={styles.title}>Tasks</Text>
                     <View style={styles.formContainer}>
                          <Text style={styles.subtitle}>
-                              {this.state.stageNew ? 'Crie a sua conta': 'Informe seus dados'}
+                              {this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}
                          </Text>
                          {this.state.stageNew &&
                               <TextInput
@@ -59,14 +68,21 @@ export default class App extends Component {
                                    secureTextEntry={true}
                                    onChangeText={confirmPassword => this.setState({ confirmPassword })} />
                          }
-                         <TouchableOpacity>
+                         <TouchableOpacity
+                              onPress={this.signinOrSignup}>
                               <View style={styles.button}>
                                    <Text style={styles.buttonText}>
-                                        {this.state.stageNew? 'Registrar': 'Entrar'}
+                                        {this.state.stageNew ? 'Registrar' : 'Entrar'}
                                    </Text>
                               </View>
                          </TouchableOpacity>
                     </View>
+                    <TouchableOpacity style={{ padding: 10 }}
+                         onPress={() => this.setState({stageNew: !this.state.stageNew})}>
+                              <Text style={styles.buttonText}>
+                                   {this.state.stageNew ? 'Já possui conta?' : 'Ainda não possui conta?'}
+                              </Text>
+                    </TouchableOpacity>
                </ImageBackground>
           )
      }
@@ -86,13 +102,13 @@ const styles = StyleSheet.create({
           fontSize: 70,
           marginBottom: 10
      },
-     subtitle:{
+     subtitle: {
           fontFamily: commonStyles.fontFamily,
           color: '#FFF',
           fontSize: 20,
           textAlign: 'center',
           marginBottom: 10
-     },   
+     },
      formContainer: {
           backgroundColor: 'rgba(0,0,0,0.8)',
           padding: 20,
