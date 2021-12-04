@@ -15,8 +15,11 @@ import commonStyles from '../commonStyles'
 export default class App extends Component {
 
      state = {
+          name='',
           email: '',
           password: '',
+          confirmPassword: '',
+          stageNew: true
      }
 
      render() {
@@ -26,6 +29,16 @@ export default class App extends Component {
                     style={styles.background}>
                     <Text style={styles.title}>Tasks</Text>
                     <View style={styles.formContainer}>
+                         <Text style={styles.subtitle}>
+                              {this.state.stageNew ? 'Crie a sua conta': 'Informe seus dados'}
+                         </Text>
+                         {this.state.stageNew &&
+                              <TextInput
+                                   placeholder='Nome'
+                                   value={this.state.name}
+                                   style={styles.input}
+                                   onChangeText={name => this.setState({ name })} />
+                         }
                          <TextInput
                               placeholder='E-mail'
                               value={this.state.email}
@@ -35,10 +48,22 @@ export default class App extends Component {
                               placeholder='Senha'
                               value={this.state.password}
                               style={styles.input}
+                              secureTextEntry={true}
                               onChangeText={password => this.setState({ password })} />
+                         {
+                              this.state.stageNew &&
+                              <TextInput
+                                   placeholder='Confirmação de Senha'
+                                   value={this.state.confirmPassword}
+                                   style={styles.input}
+                                   secureTextEntry={true}
+                                   onChangeText={confirmPassword => this.setState({ confirmPassword })} />
+                         }
                          <TouchableOpacity>
                               <View style={styles.button}>
-                                   <Text style={styles.buttonText}>Entrar</Text>
+                                   <Text style={styles.buttonText}>
+                                        {this.state.stageNew? 'Registrar': 'Entrar'}
+                                   </Text>
                               </View>
                          </TouchableOpacity>
                     </View>
@@ -61,6 +86,13 @@ const styles = StyleSheet.create({
           fontSize: 70,
           marginBottom: 10
      },
+     subtitle:{
+          fontFamily: commonStyles.fontFamily,
+          color: '#FFF',
+          fontSize: 20,
+          textAlign: 'center',
+          marginBottom: 10
+     },   
      formContainer: {
           backgroundColor: 'rgba(0,0,0,0.8)',
           padding: 20,
@@ -76,7 +108,7 @@ const styles = StyleSheet.create({
           backgroundColor: '#080',
           marginTop: 10,
           padding: 10,
-          alignItems: 'center', 
+          alignItems: 'center',
      },
      buttonText: {
           fontFamily: commonStyles.fontFamily,
