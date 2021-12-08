@@ -19,8 +19,8 @@ import { server, showError, showSuccess } from '../common'
 // Dessa maneira você pode recuperar o estado inicial da aplicação
 const initialState = {
      name='',
-     email: '',
-     password: '',
+     email: 'fty.57@gmail.com',
+     password: '123456',
      confirmPassword: '',
      stageNew: false
 }
