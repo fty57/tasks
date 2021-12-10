@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 
 import axios from 'axios'
+import { AsyncStorage } from '@react-native-community/async-storage'
 
 import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
@@ -19,8 +20,8 @@ import { server, showError, showSuccess } from '../common'
 // Dessa maneira você pode recuperar o estado inicial da aplicação
 const initialState = {
      name='',
-     email: 'fty.57@gmail.com',
-     password: '123456',
+     email: '',
+     password: '',
      confirmPassword: '',
      stageNew: false
 }
@@ -63,6 +64,8 @@ export default class App extends Component {
                     password: this.state.password,
                })
 
+               // Quando o usuário logar, vai ser inserido no AsyncStorage que o usuário veio lá do backend, 
+               AsyncStorage.setItem('userData', JSON.stringify(res.data))
                axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
                // res.data é para você ter acesso aos valores de resposta e serem utilizados por outra parte da aplicação, por exemplo: Menu
                this.props.navigation.navigate('Home', res.data)
