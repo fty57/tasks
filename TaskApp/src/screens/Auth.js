@@ -64,7 +64,8 @@ export default class App extends Component {
                })
 
                axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-               this.props.navigation.navigate('Home')
+               // res.data é para você ter acesso aos valores de resposta e serem utilizados por outra parte da aplicação, por exemplo: Menu
+               this.props.navigation.navigate('Home', res.data)
           }catch(e){
                showError(e)
           }
